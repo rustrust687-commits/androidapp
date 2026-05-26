@@ -23,7 +23,9 @@ jobs:
         uses: android-actions/setup-android@v3
       - name: Install dependencies
         working-directory: ./androidapp
-        run: npm install
+        run: |
+          npm install
+          npx expo install --fix
       - name: Expo prebuild
         working-directory: ./androidapp
         run: npx expo prebuild --platform android --clean
