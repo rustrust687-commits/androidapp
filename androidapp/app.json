@@ -20,8 +20,6 @@
       "package": "com.yourname.trainingtracker",
       "versionCode": 1
     },
-    "plugins": [
-      "expo-sharing"
-    ]
+    
   }
 }
