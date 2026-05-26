@@ -22,13 +22,16 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
       - name: Install dependencies
+        working-directory: ./androidapp
         run: npm install
       - name: Expo prebuild
+        working-directory: ./androidapp
         run: npx expo prebuild --platform android --clean
       - name: Build APK
+        working-directory: ./androidapp
         run: cd android && chmod +x gradlew && ./gradlew assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app.apk
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: androidapp/android/app/build/outputs/apk/debug/*.apk
