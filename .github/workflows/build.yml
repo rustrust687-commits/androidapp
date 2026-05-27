@@ -18,14 +18,10 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+          java-version: 11
       - name: Install dependencies
         working-directory: ./androidapp
-        run: |
-          npm install
-          npx expo install --fix
+        run: npm install
       - name: Expo prebuild
         working-directory: ./androidapp
         run: npx expo prebuild --platform android --clean
