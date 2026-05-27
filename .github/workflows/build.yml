@@ -16,9 +16,11 @@ jobs:
           node-version: 20
       - name: Install dependencies
         working-directory: ./androidapp
-        run: npm install
+        run: |
+          npm install
+          npm install -g eas-cli
       - name: Build APK
         working-directory: ./androidapp
-        run: npx eas build --platform android --profile preview --non-interactive --no-wait
+        run: eas build --platform android --profile preview --non-interactive --no-wait
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
