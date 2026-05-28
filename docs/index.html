@@ -300,7 +300,7 @@ function swTab(id){
 }
 
 // ===== DAYS =====
-async function loadDays(){if(!user)return;try{const q=db.collection('days').where('uid','==',user.uid).orderBy('createdAt');days=(await q.get()).docs.map(d=>({id:d.id,...d.data()}));renDays();popDaySelect();popHistFilter();popProgSelect()}catch(e){console.error(e);alert('Ошибка загрузки. Открой консоль (F12)')}}
+async function loadDays(){if(!user)return;try{const q=db.collection('days').where('uid','==',user.uid);const snap=await q.get();days=snap.docs.map(d=>({id:d.id,...d.data()}));days.sort((a,b)=>{const at=a.createdAt?.seconds||0,bt=b.createdAt?.seconds||0;return at>bt?1:-1});renDays();popDaySelect();popHistFilter();popProgSelect()}catch(e){console.error(e)}}
 function renDays(){
   const el=document.getElementById('dayList');
   if(!days.length){el.innerHTML='<div class="empty"><span class="empty-icon">📋</span><p>Нет дней. Нажмите «Создать»</p></div>';return}
@@ -428,7 +428,7 @@ document.getElementById('saveSessionBtn').onclick=async()=>{
 };
 
 // ===== SESSIONS =====
-async function loadSessions(){if(!user)return;try{const q=db.collection('sessions').where('uid','==',user.uid).orderBy('date','desc');sessions=(await q.get()).docs.map(d=>({id:d.id,...d.data()}))}catch(e){}}
+async function loadSessions(){if(!user)return;try{const q=db.collection('sessions').where('uid','==',user.uid);sessions=(await q.get()).docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.date||'')>(b.date||'')?-1:1)}catch(e){}}
 function popHistFilter(){
   const sel=document.getElementById('historyFilter'),n=[...new Set(sessions.map(s=>s.dayName))];
   sel.innerHTML='<option value="">Все дни</option>'+n.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
